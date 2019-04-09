@@ -1,0 +1,8 @@
+<h3 mat-dialog-title>
+  <mat-icon color="warn">warning</mat-icon>
+  Dangerous operation. Are you sure?
+</h3>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close cdkFocusInitial color="primary">Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="true">Yes</button>
+</mat-dialog-actions>

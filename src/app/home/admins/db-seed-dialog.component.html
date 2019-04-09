@@ -1,0 +1,14 @@
+<h3 mat-dialog-title>Seed Database</h3>
+<form>
+  <mat-dialog-content>
+    <mat-form-field>
+      <input type="file" #file>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button type="submit" mat-button mat-dialog-close
+            (click)="seed(file.files)">Seed Database
+    </button>
+  </mat-dialog-actions>
+</form>

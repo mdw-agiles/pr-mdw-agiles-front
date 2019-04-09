@@ -1,0 +1,30 @@
+<h3 mat-dialog-title>Cashier Closure (total sales: € {{cashierState.salesTotal}})</h3>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Final card (€ {{cashierState.totalCard}})"
+           [(ngModel)]="cashierClosureFinal.finalCard"
+           required cdkFocusInitial/>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Final cash (€ {{cashierState.totalCash}})"
+           [(ngModel)]="cashierClosureFinal.finalCash"
+           required/>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Total vouchers" [value]="cashierState.totalVoucher" readonly/>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Comment" [(ngModel)]="cashierClosureFinal.comment" required/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="accent" (click)="close()" [disabled]="invalid()">
+    <mat-icon>lock_outline</mat-icon>
+    Close cashier
+  </button>
+  <button mat-raised-button color="primary" (click)="cashMovement()">
+    <mat-icon>account_balance_wallet</mat-icon>
+    <span>Cash movement</span>
+  </button>
+</mat-dialog-actions>

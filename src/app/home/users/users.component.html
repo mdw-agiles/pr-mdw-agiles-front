@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-title>Search</mat-card-title>
+  <mat-card-content>
+    <mat-form-field>
+      <input [(ngModel)]="user.mobile" matInput placeholder="Mobile">
+    </mat-form-field>
+    <mat-form-field>
+      <input [(ngModel)]="user.username" matInput placeholder="Username">
+    </mat-form-field>
+    <mat-form-field>
+      <input [(ngModel)]="user.dni" matInput placeholder="Dni">
+    </mat-form-field>
+    <mat-form-field>
+      <input [(ngModel)]="user.address" matInput placeholder="Address">
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="onlyCustomer">Only Customer</mat-checkbox>
+    <button (click)="search()" color="primary" mat-mini-fab>
+      <mat-icon>search</mat-icon>
+    </button>
+    <button (click)="resetSearch()" color="primary" mat-mini-fab>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card-content>
+</mat-card>
+<!-- Default: [createAction]="true" [readAction]="true" [updateAction]="true" [deleteAction]="true"-->
+<app-crud [data]="data" [title]="title" [columns]="columns"
+          (create)="create()" (read)="read($event)" (update)="update($event)" (delete)=delete($event)></app-crud>

@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Article Creation</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Code" [ngModel]="article.code" readonly/>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Description" [(ngModel)]="article.description" required cdkFocusInitial/>
+    <mat-error>Field required</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Retail Price" [(ngModel)]="article.retailPrice" required>
+    <mat-error>Field required</mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close tabindex="-1">Cancel</button>
+  <button mat-button (click)="create()" [disabled]="invalidArticle()">Create</button>
+</mat-dialog-actions>

@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Total purchase: {{totalPurchase | currency:'EUR':'symbol'}}
+  <span *ngIf="uncommitted()"> - Total Pay: {{totalCommitted() | currency:'EUR':'symbol'}}</span>
+</h2>
+<mat-dialog-content>
+    <span *ngIf="warning()">
+        <mat-icon color="warn">report_problem</mat-icon> Uncommit articles & phone not registered</span>
+  <!-- <app-user-quick-crud (found)="updateUser($event)"></app-user-quick-crud> -->
+  <mat-form-field>
+    <input matInput type="number" placeholder="Mobile"/>
+    <button mat-button matSuffix mat-icon-button>
+      <mat-icon color="warn">search</mat-icon>
+    </button>
+    <button mat-button matSuffix mat-icon-button>
+      <mat-icon color="warn">mode_edit</mat-icon>
+    </button>
+    <button mat-button matSuffix mat-icon-button>
+      <mat-icon color="warn">close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Card" [(ngModel)]="ticketCreation.card"/>
+    <button mat-button matSuffix mat-icon-button aria-label="Card" (click)="fillCard()">
+      <mat-icon color="warn">credit_card</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Cash" cdkFocusInitial [(ngModel)]="ticketCreation.cash"/>
+    <button mat-button matSuffix mat-icon-button (click)="fillCash()">
+      <mat-icon color="warn">euro_symbol</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Voucher" [disabled]="true" [(ngModel)]="ticketCreation.voucher"/>
+    <button mat-button matSuffix mat-icon-button aria-label="Voucher" (click)="consumeVoucher()">
+      <mat-icon color="warn">local_offer</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="requestedInvoice" [disabled]="invalidInvoice()">
+    <span> Create Invoice ({{ticketCreation.userMobile}})</span>
+  </mat-checkbox>
+  <div class="mat-raised-button mat-primary" *ngIf="!invalidCheckOut()&&returnedCash()>0"> Cash Return:
+    {{returnedCash() | currency:'EUR':'symbol'}}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  <button mat-raised-button color="accent" (click)="checkOut()" [disabled]="invalidCheckOut()">Pay
+    <span class="mat-suffix" *ngIf="invalidCheckOut()">( => {{totalCommitted()}})</span>
+  </button>
+</mat-dialog-actions>
