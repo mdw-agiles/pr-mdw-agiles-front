@@ -7,4 +7,28 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #fafafa;
+}
+
+.icon-page {
+  width: 200px;
+}
+
+.mat-toolbar {
+  justify-content: space-between;
+  color: #333 !important;
+  background-color: #fff !important;
+  box-shadow: 0 1px 4px rgba(41, 51, 57, .5);
+}
+
+.content {
+  display: inline-flex;
+  width: 100%;
+  height: calc(100vh - 130px);
+  margin: 0px;
+}
+
+.content-display {
+  width: 100%;
+  padding: 0 35px 0 35px;
 }

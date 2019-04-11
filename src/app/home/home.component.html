@@ -1,17 +1,10 @@
 <mat-toolbar color="primary">
-  <img alt="miw" src="../../assets/img/miw.png"/>
-  <span>TPV</span>
-  <span class="toolbar-spacer"></span>
+  <img class="icon-page" src="../assets/img/byhoursicon2.png"/>
   <span>
-    <app-date format="medium"></app-date>
     <button (click)="logout()" mat-button>
       <span>{{username}}</span>
       <mat-icon>person</mat-icon>
       <span>Logout</span>
-    </button>
-    <button (click)="profile()" mat-button>
-      <mat-icon>account_box</mat-icon>
-      <span>Profile</span>
     </button>
     <button [matMenuTriggerFor]="menu" mat-icon-button>
       <mat-icon>more_vert</mat-icon>
@@ -19,104 +12,22 @@
   </span>
 </mat-toolbar>
 <mat-menu xPosition="before" #menu="matMenu">
-  <button mat-menu-item (click)="cashier()">
-    <mat-icon>home</mat-icon>
-    <span>Cashier</span>
-  </button>
   <button *ngIf="isAdmin()" mat-menu-item [matMenuTriggerFor]="settings">
     <mat-icon>settings</mat-icon>
     <span>Admin</span>
   </button>
-  <button mat-menu-item [matMenuTriggerFor]="cashiers">
-    <mat-icon>account_balance</mat-icon>
-    <span>Cashier closures</span>
-  </button>
-  <button mat-menu-item [matMenuTriggerFor]="receipts">
-    <mat-icon>receipt</mat-icon>
-    <span>Receipt</span>
-  </button>
-  <button mat-menu-item [matMenuTriggerFor]="products">
-    <mat-icon>line_style</mat-icon>
-    <span>Products</span>
-  </button>
   <button mat-menu-item (click)="customers()">
     <mat-icon>account_circle</mat-icon>
     <span>Users</span>
-  </button>
-  <button mat-menu-item (click)="statistics()">
-    <mat-icon>assessment</mat-icon>
-    <span>Statistics</span>
   </button>
 </mat-menu>
 <mat-menu #settings="matMenu">
   <button mat-menu-item (click)="deleteDb()">Delete Database</button>
   <button mat-menu-item (click)="seedDb()">Seed Database</button>
 </mat-menu>
-<mat-menu #cashiers="matMenu">
-  <button *ngIf="!cashierClosed" mat-menu-item (click)="closeCashier()">
-    <mat-icon>lock_outline</mat-icon>
-    <span>Close cashier</span>
-  </button>
-  <button *ngIf="cashierClosed" mat-menu-item (click)="openCashier()">
-    <mat-icon>lock_open</mat-icon>
-    <span>Open Cashier</span>
-  </button>
-  <button *ngIf="!cashierClosed" mat-menu-item (click)="cashMovement()">
-    <mat-icon>account_balance_wallet</mat-icon>
-    <span>Cash Movement</span>
-  </button>
-  <button mat-menu-item (click)="cashierClosure()">
-    <mat-icon>account_balance</mat-icon>
-    <span>Cashier Closure</span>
-  </button>
-</mat-menu>
-<mat-menu #receipts="matMenu">
-  <button mat-menu-item (click)="tickets()">
-    <mat-icon>toc</mat-icon>
-    <span>Tickets</span>
-  </button>
-  <button mat-menu-item (click)="ticketTracking()">
-    <mat-icon>playlist_add_check</mat-icon>
-    <span>Ticket tracking</span>
-  </button>
-  <button mat-menu-item (click)="invoices()">
-    <mat-icon>receipt</mat-icon>
-    <span>Invoices</span>
-  </button>
-  <button mat-menu-item (click)="budgets()">
-    <mat-icon>description</mat-icon>
-    <span>Budgets</span>
-  </button>
-  <button mat-menu-item (click)="vouchers()">
-    <mat-icon>local_offer</mat-icon>
-    <span>Vouchers</span>
-  </button>
-</mat-menu>
-<mat-menu #products="matMenu">
-  <button mat-menu-item (click)="article()">
-    <mat-icon>view_list</mat-icon>
-    <span>Articles</span>
-  </button>
-  <button mat-menu-item (click)="articlesFamily()">
-    <mat-icon>view_quilt</mat-icon>
-    <span>Articles Family</span>
-  </button>
-  <button mat-menu-item (click)="createFamilySizes()">
-    <mat-icon>view_module</mat-icon>
-    <span>Create Family sizes</span>
-  </button>
-  <button mat-menu-item (click)="providers()">
-    <mat-icon>local_shipping</mat-icon>
-    <span>Providers</span>
-  </button>
-  <button mat-menu-item *ngIf="isAdmin()||isManager()" (click)="Orders()">
-    <mat-icon>storage</mat-icon>
-    <span>Orders</span>
-  </button>
-  <button mat-menu-item (click)="tags()">
-    <mat-icon>view_comfy</mat-icon>
-    <span>Tags</span>
-  </button>
-</mat-menu>
-
+<div class="content">
+  <div class="content-display">
+    <h2>Home</h2>
+  </div>
+</div>
 <router-outlet></router-outlet>
