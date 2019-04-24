@@ -1,3 +1,30 @@
 .mat-toolbar {
   justify-content: space-between;
 }
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+.image {
+  margin-top: 2%;
+  position: relative;
+  width: 30%;
+  height: 90%;
+}
+
+.item {
+  margin-top: 5%;
+  margin-left: 5%;
+}
+
+.team {
+  margin-top: 1%;
+  margin-left: 5%;
+}
+
+.parent {
+  display: flex;
+}
+
+mat-list-item{
+  font-weight: bold;
+}

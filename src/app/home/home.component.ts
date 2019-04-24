@@ -24,7 +24,6 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    debugger;
     this.username = this.tokensService.getName();
   }
 
