@@ -14,7 +14,7 @@ import {UsersComponent} from './users/users.component';
   styleUrls: ['home.component.css'],
 
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   static URL = 'home';
 
   username: string;

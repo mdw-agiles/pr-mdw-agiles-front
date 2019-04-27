@@ -5,6 +5,7 @@ import {HomeComponent} from './home/home.component';
 import {UsersComponent} from './home/users/users.component';
 import {DbSeedDialogComponent} from './home/admins/db-seed-dialog.component';
 import {WelcomeComponent} from './welcome.component';
+import {ReservationsComponent} from './home/reservations/reservations.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: WelcomeComponent.URL},
@@ -26,6 +27,7 @@ export class AppRoutingModule {
     HomeComponent,
     UsersComponent,
     WelcomeComponent,
+    ReservationsComponent,
   ];
 
   static DIALOGS = [
