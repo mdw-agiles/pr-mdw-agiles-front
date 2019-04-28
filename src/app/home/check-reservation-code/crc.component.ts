@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-import {TokensService} from '../../core/tokens.service';
-import {Reservation} from './crc.model';
+import {ReservationService} from '../shared/reservation.service';
 
 @Component({
   templateUrl: 'crc-dialog.component.html',
@@ -10,22 +9,43 @@ import {Reservation} from './crc.model';
 
 export class CheckReservationCodeDialogComponent {
 
-  reservation: Reservation = {code: undefined};
-  username: string;
+  code: string = undefined;
 
   constructor(
     private snackBar: MatSnackBar,
-    private tokensService: TokensService
+    private reservationService: ReservationService
   ) {
   }
 
   invalid() {
-    return (!this.reservation.code && !this.reservation.code);
+    return (!this.code && !this.code);
   }
 
   check() {
-    this.snackBar.open('Reservation code not found', 'Error', {
-      duration: 2000
-    });
+    if (this.code) {
+      this.reservationService.getReservationByCode(this.code).subscribe(
+        response => {
+            if (response.length > 0) {
+              this.snackBar.open('Successful operation. Reservation found !!', '', {
+                duration: 2000
+              });
+              // TODO: Show reservation
+            } else {
+              this.snackBar.open('Reservation code not found. Try again.', 'Error', {
+                duration: 2000
+              });
+            }
+        },
+        err => {
+          this.snackBar.open('Reservation code not found', 'Error', {
+            duration: 2000
+          });
+        }
+      );
+    } else {
+      this.snackBar.open('Input a correct code', 'Error', {
+        duration: 2000
+      });
+    }
   }
 }
