@@ -1,0 +1,16 @@
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Insert reservation code"
+           [(ngModel)]="code"
+           required/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button mat-dialog-close color="accent"
+          (click)="check()"
+          [disabled]="invalid()">
+    <mat-icon>check</mat-icon>
+    Check
+  </button>
+</mat-dialog-actions>

@@ -8,6 +8,7 @@ import {AdminsService} from './admins/admins.service';
 import {UserService} from './users/user.service';
 import {DbSeedDialogComponent} from './admins/db-seed-dialog.component';
 import {UsersComponent} from './users/users.component';
+import {CheckReservationCodeDialogComponent} from './check-reservation-code/crc.component';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -56,4 +57,7 @@ export class HomeComponent implements OnInit{
     this.router.navigate([HomeComponent.URL, UsersComponent.URL]);
   }
 
+  checkReservationCode() {
+    this.dialog.open(CheckReservationCodeDialogComponent);
+  }
 }

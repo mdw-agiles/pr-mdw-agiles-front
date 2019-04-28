@@ -10,6 +10,7 @@ import {UserService} from './home/users/user.service';
 import {AppMaterialModule} from './app-material.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {ReservationService} from './home/shared/reservation.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {AppComponent} from './app.component';
   entryComponents: [AppRoutingModule.DIALOGS],
   providers: [
     AdminsService,
-    UserService
+    UserService,
+    ReservationService
   ],
   bootstrap: [AppComponent]
 })
