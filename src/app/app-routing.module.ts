@@ -6,6 +6,8 @@ import {UsersComponent} from './home/users/users.component';
 import {DbSeedDialogComponent} from './home/admins/db-seed-dialog.component';
 import {WelcomeComponent} from './welcome.component';
 import {ReservationsComponent} from './home/reservations/reservations.component';
+import {CheckReservationCodeDialogComponent} from './home/check-reservation-code/crc.component';
+
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: WelcomeComponent.URL},
@@ -31,6 +33,7 @@ export class AppRoutingModule {
   ];
 
   static DIALOGS = [
-    DbSeedDialogComponent
+    DbSeedDialogComponent,
+    CheckReservationCodeDialogComponent
   ];
 }
