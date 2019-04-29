@@ -4,6 +4,7 @@ import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
 import {MatTableDataSource} from '@angular/material';
+import {Room} from './models/room.model';
 
 @Component({
   selector: 'app-reservations',
@@ -17,8 +18,13 @@ export class ReservationsComponent {
   matSelectHotelChain: GenericMatSelect[];
   hotels: Hotel[];
   hasHotelsFound: boolean;
-  dataSource: MatTableDataSource<Hotel>;
-  displayedColumns = ['id', 'hotelChainName', 'name'];
+  dataSourceHotel: MatTableDataSource<Hotel>;
+  displayedHotelColumns = ['id', 'name', 'rooms'];
+  dataSourceRoom: MatTableDataSource<Room>;
+  displayedRoomColumns = ['id', 'name', 'price'];
+  hasRoomsFound: boolean;
+  rooms: Room[];
+  roomNameSelected: string;
 
   constructor(private reservationService: ReservationService) {
     this.matSelectHotelChain = [];
@@ -27,6 +33,9 @@ export class ReservationsComponent {
     this.hotelChain = { name: ''};
     this.hotels = [];
     this.hasHotelsFound = false;
+    this.hasRoomsFound = false;
+    this.rooms = [];
+    this.roomNameSelected = '';
   }
 
   obtainAllHotelChains() {
@@ -46,15 +55,35 @@ export class ReservationsComponent {
 
   manageHotelChainSelected(chainSelected) {
     this.isHotelChainSelected = true;
+    this.hasRoomsFound = false;
+    this.hasHotelsFound = false;
     this.hotelChain.name = chainSelected.value;
   }
 
   searchTicketByHotelChain() {
     this.reservationService.getAllHotelByHotelChain(this.hotelChain.name).subscribe(hotels => {
       this.hotels = hotels;
-      this.dataSource = new MatTableDataSource<Hotel>(this.hotels);
+      this.dataSourceHotel = new MatTableDataSource<Hotel>(this.hotels);
       this.hasHotelsFound = true;
+      this.hasRoomsFound = false;
     }, () => this.hasHotelsFound = false );
+  }
+
+  showRooms(room: string) {
+    this.hasHotelsFound = false;
+    this.roomNameSelected = room;
+    this.searchRoomsByHotel();
+  }
+
+  searchRoomsByHotel() {
+    this.reservationService.getAllRoomByHotel(this.roomNameSelected).subscribe(rooms => {
+      this.rooms = rooms;
+      this.dataSourceRoom = new MatTableDataSource<Room>(this.rooms);
+      this.hasRoomsFound = true;
+    }, () => {
+      this.hasHotelsFound = true;
+      this.hasRoomsFound = false;
+    });
   }
 }
 

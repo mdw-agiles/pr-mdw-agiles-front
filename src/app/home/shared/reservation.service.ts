@@ -4,6 +4,7 @@ import {HttpService} from '../../core/http.service';
 import {Observable} from 'rxjs';
 import {HotelChain} from '../reservations/models/hotel-chain.model';
 import {Hotel} from '../reservations/models/hotel.model';
+import {Room} from '../reservations/models/room.model';
 
 @Injectable()
 export class ReservationService {
@@ -18,7 +19,11 @@ export class ReservationService {
     return this.httpService.get(ApiEndpoint.HOTEL_CHAINS);
   }
 
-  getAllHotelByHotelChain(hotenChain: string): Observable<Hotel[]> {
-    return this.httpService.param('hotelChain', hotenChain).get(ApiEndpoint.HOTEL_SEARCH);
+  getAllHotelByHotelChain(hotelChain: string): Observable<Hotel[]> {
+    return this.httpService.param('hotelChain', hotelChain).get(ApiEndpoint.HOTEL_SEARCH);
+  }
+
+  getAllRoomByHotel(hotelName: string): Observable<Room[]> {
+    return this.httpService.param('hotelName', hotelName).get(ApiEndpoint.ROOM_SEARCH);
   }
 }

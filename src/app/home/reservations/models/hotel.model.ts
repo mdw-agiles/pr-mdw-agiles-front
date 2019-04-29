@@ -3,3 +3,4 @@ export interface Hotel {
   hotelChainId: string;
   hotelChainName: string;
 }
+
