@@ -22,3 +22,25 @@
     </button>
   </div>
 </mat-card>
+<div *ngIf="hasHotelsFound">
+  <mat-card>
+    <mat-card-content>
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef fxFlex="5%">#</mat-header-cell>
+          <mat-cell *matCellDef="let i = index" fxFlex="5%"> {{i + 1}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="hotelChainName">
+          <mat-header-cell *matHeaderCellDef fxFlex="28%"> Hotel Chain</mat-header-cell>
+          <mat-cell *matCellDef="let item" fxFlex="28%"> {{item.hotelChainName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef fxFlex="28%"> Hotel</mat-header-cell>
+          <mat-cell *matCellDef="let item" fxFlex="28%"> {{item.name}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let item; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-card-content>
+  </mat-card>
+</div>

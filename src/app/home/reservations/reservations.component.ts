@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
+import {Hotel} from './models/hotel.model';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-reservations',
@@ -13,11 +15,18 @@ export class ReservationsComponent {
   hotelChain: HotelChain;
   isHotelChainSelected: boolean;
   matSelectHotelChain: GenericMatSelect[];
+  hotels: Hotel[];
+  hasHotelsFound: boolean;
+  dataSource: MatTableDataSource<Hotel>;
+  displayedColumns = ['id', 'hotelChainName', 'name'];
+
   constructor(private reservationService: ReservationService) {
     this.matSelectHotelChain = [];
     this.isHotelChainSelected = false;
     this.obtainAllHotelChains();
     this.hotelChain = { name: ''};
+    this.hotels = [];
+    this.hasHotelsFound = false;
   }
 
   obtainAllHotelChains() {
@@ -41,7 +50,11 @@ export class ReservationsComponent {
   }
 
   searchTicketByHotelChain() {
-    // TODO: Call reservations Service
+    this.reservationService.getAllHotelByHotelChain(this.hotelChain.name).subscribe(hotels => {
+      this.hotels = hotels;
+      this.dataSource = new MatTableDataSource<Hotel>(this.hotels);
+      this.hasHotelsFound = true;
+    }, () => this.hasHotelsFound = false );
   }
 }
 
