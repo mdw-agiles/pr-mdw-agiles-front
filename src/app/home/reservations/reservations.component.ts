@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
+import {ReservationConfirmationDialogComponent} from '../reservation-confirmation-dialog/reservation-confirmation-dialog.component';
 
 @Component({
   selector: 'app-reservations',
@@ -21,16 +22,17 @@ export class ReservationsComponent {
   dataSourceHotel: MatTableDataSource<Hotel>;
   displayedHotelColumns = ['id', 'name', 'rooms'];
   dataSourceRoom: MatTableDataSource<Room>;
-  displayedRoomColumns = ['id', 'name', 'price'];
+  displayedRoomColumns = ['id', 'name', 'price', 'reserve'];
   hasRoomsFound: boolean;
   rooms: Room[];
   roomNameSelected: string;
+  reservationCode: string;
 
-  constructor(private reservationService: ReservationService) {
+  constructor(private reservationService: ReservationService, private dialog: MatDialog) {
     this.matSelectHotelChain = [];
     this.isHotelChainSelected = false;
     this.obtainAllHotelChains();
-    this.hotelChain = { name: ''};
+    this.hotelChain = {name: ''};
     this.hotels = [];
     this.hasHotelsFound = false;
     this.hasRoomsFound = false;
@@ -39,17 +41,17 @@ export class ReservationsComponent {
   }
 
   obtainAllHotelChains() {
-    this.reservationService.getAllHotelChains().subscribe( hotelChains => {
-      this.fillMatSelectHotelChain(hotelChains);
-    },
+    this.reservationService.getAllHotelChains().subscribe(hotelChains => {
+        this.fillMatSelectHotelChain(hotelChains);
+      },
       () => {
-      this.isHotelChainSelected = false;
+        this.isHotelChainSelected = false;
       });
   }
 
   fillMatSelectHotelChain(hotelChains: HotelChain[]) {
     hotelChains.forEach(hotelChain => {
-      this.matSelectHotelChain.push( {value: hotelChain.name, viewValue: hotelChain.name});
+      this.matSelectHotelChain.push({value: hotelChain.name, viewValue: hotelChain.name});
     });
   }
 
@@ -66,7 +68,7 @@ export class ReservationsComponent {
       this.dataSourceHotel = new MatTableDataSource<Hotel>(this.hotels);
       this.hasHotelsFound = true;
       this.hasRoomsFound = false;
-    }, () => this.hasHotelsFound = false );
+    }, () => this.hasHotelsFound = false);
   }
 
   showRooms(room: string) {
@@ -83,6 +85,18 @@ export class ReservationsComponent {
     }, () => {
       this.hasHotelsFound = true;
       this.hasRoomsFound = false;
+    });
+  }
+
+  // Call to dummy postReservation service
+  reserve() {
+    const codeObservable = this.reservationService.postReservation();
+    codeObservable.subscribe((reservationCodePost: string) => {
+      this.reservationCode = reservationCodePost;
+      console.log(this.reservationCode);
+      this.dialog.open(ReservationConfirmationDialogComponent, {
+        data: { code: this.reservationCode },
+      });
     });
   }
 }
