@@ -3,8 +3,9 @@ import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
+import {ReservationConfirmationDialogComponent} from '../reservation-confirmation-dialog/reservation-confirmation-dialog.component';
 
 @Component({
   selector: 'app-reservations',
@@ -25,8 +26,9 @@ export class ReservationsComponent {
   hasRoomsFound: boolean;
   rooms: Room[];
   roomNameSelected: string;
+  reservationCode: string;
 
-  constructor(private reservationService: ReservationService) {
+  constructor(private reservationService: ReservationService, private dialog: MatDialog) {
     this.matSelectHotelChain = [];
     this.isHotelChainSelected = false;
     this.obtainAllHotelChains();
@@ -86,8 +88,16 @@ export class ReservationsComponent {
     });
   }
 
+  // Call to dummy postReservation service
   reserve(room: string) {
-
+    const codeObservable = this.reservationService.postReservation();
+    codeObservable.subscribe((reservationCodePost: string) => {
+      this.reservationCode = reservationCodePost;
+      console.log(this.reservationCode);
+      this.dialog.open(ReservationConfirmationDialogComponent, {
+        data: { code: this.reservationCode },
+      });
+    });
   }
 }
 
