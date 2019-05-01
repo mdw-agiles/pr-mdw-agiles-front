@@ -9,13 +9,14 @@ import {UserService} from './users/user.service';
 import {DbSeedDialogComponent} from './admins/db-seed-dialog.component';
 import {UsersComponent} from './users/users.component';
 import {CheckReservationCodeDialogComponent} from './check-reservation-code/crc.component';
+import {ConfirmReservationComponent} from './confirm-reservation/confirm-reservation.component';
 
 @Component({
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css'],
 
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   static URL = 'home';
 
   username: string;
@@ -59,5 +60,9 @@ export class HomeComponent implements OnInit{
 
   checkReservationCode() {
     this.dialog.open(CheckReservationCodeDialogComponent);
+  }
+
+  confirmReservation() {
+    this.router.navigate([HomeComponent.URL, ConfirmReservationComponent.URL]);
   }
 }
