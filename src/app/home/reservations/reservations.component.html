@@ -72,6 +72,15 @@
           <mat-header-cell *matHeaderCellDef fxFlex="28%"> Precio</mat-header-cell>
           <mat-cell *matCellDef="let item" fxFlex="28%"> {{item.price}}</mat-cell>
         </ng-container>
+        <ng-container matColumnDef="reserve">
+          <mat-header-cell *matHeaderCellDef fxFlex="28%"> Reservar</mat-header-cell>
+          <mat-cell *matCellDef="let item" fxFlex="28%">
+            <button (click)="reserve(item.name)"
+                    mat-button mat-icon-button matSuffix>
+              <mat-icon color="primary">schedule</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
         <mat-header-row *matHeaderRowDef="displayedRoomColumns"></mat-header-row>
         <mat-row *matRowDef="let item; columns: displayedRoomColumns;"></mat-row>
       </mat-table>
