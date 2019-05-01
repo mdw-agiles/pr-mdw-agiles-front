@@ -5,9 +5,11 @@ import {HomeComponent} from './home/home.component';
 import {UsersComponent} from './home/users/users.component';
 import {DbSeedDialogComponent} from './home/admins/db-seed-dialog.component';
 import {WelcomeComponent} from './welcome.component';
+import {ReservationsComponent} from './home/reservations/reservations.component';
 import {CheckReservationCodeDialogComponent} from './home/check-reservation-code/crc.component';
 import {ConfirmReservationComponent} from './home/confirm-reservation/confirm-reservation.component';
 import {ReservationConfirmationDialogComponent} from './home/reservation-confirmation-dialog/reservation-confirmation-dialog.component';
+
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: WelcomeComponent.URL},
@@ -30,7 +32,8 @@ export class AppRoutingModule {
     HomeComponent,
     UsersComponent,
     WelcomeComponent,
-    ConfirmReservationComponent
+    ConfirmReservationComponent,
+    ReservationsComponent
   ];
 
   static DIALOGS = [

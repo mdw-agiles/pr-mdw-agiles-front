@@ -1,10 +1,10 @@
-# Proyecto TPV - Front-end - Angular
-#### Back-end con Tecnologías de Código Abierto (SPRING)
+# Proyecto MDW - Front-end - Angular
+#### Metodologías de desarrollo web (Angular)
 #### [Máster en Ingeniería Web por la U.P.M.](http://miw.etsisi.upm.es)
-[![Build Status](https://travis-ci.org/miw-upm/betca-tpv-angular.svg?branch=develop)](https://travis-ci.org/miw-upm/betca-tpv-angular)
+[![Build Status](https://travis-ci.org/mdw-agiles/pr-mdw-agiles-front/?branch=develop)](https://travis-ci.org/mdw-agiles/pr-mdw-agiles-front)
 
 > Proyecto Front-end completo para el uso de la tecnología Angular-Spring.  
-> Web en acción: [https://betca-tpv-angular.herokuapp.com](https://betca-tpv-angular.herokuapp.com).  
+> Web en acción: [https://pr-mdw-agiles-front.herokuapp.com](https://pr-mdw-agiles-front.herokuapp.com).  
 > El Back-end se desarrolla en Spring en el proyecto [betca-tpv-spring](https://github.com/miw-upm/betca-tpv-spring). Documentación del API [Swagger](https://betca-tpv-spring.herokuapp.com/api/v0/swagger-ui.html)  
 > Ejecución en local:
 > * Se debe tener arrancado el motor de MongoDB: `mongodb://localhost:27017/tpv`  
@@ -20,13 +20,7 @@ This project was generated with
 * [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
 
 ## Presentación
-Este proyecto es la práctica de Angular desarrollada de forma colaborativa por todos los alumnos. Se parte de la versión `core`, ya implementada, y se pretende ampliar con un conjunto de mejoras.  
-
-Un **T**erminal **P**unto de **V**enta es un sistema informático que gestiona el proceso de venta mediante una interfaz accesible para los vendedores o compradores.
-Permite la creación e impresión del recibo ticket o factura de venta —con los detalles de las referencias y precios— de los artículos vendidos, actualiza los cambios en el nivel de existencias de mercancías (STOCK) en la base de datos...
-
-## Video explicativo
-https://youtu.be/ozgDhEO18XQ
+Con este proyecto se pretende prácticar los principios de las metodologías ágiles desarrollando un primer sprint.  
 
 ## Tecnologías necesarias
 `Typescript` `Angular` `Angular-Material` `Angular-layout` `HTML` `CSS`
@@ -148,45 +142,12 @@ En la cuenta de **Travis-CI**, dentro del proyecto, en `-> More options -> Setti
 ```
 * Se ha añadido al fichero `.travis.yml` el contenido:
 ```yaml
-# Deploy https://betca-tpv-angular.herokuapp.com
 deploy:
   provider: heroku
   api_key:
     secure: $HEROKU
   on:
     branch: master
-```
-## Git Workflow
-![](https://github.com/miw-upm/betca-tpv-angular/blob/develop/docs/git-workflow.png)
-
-## Arquitectura
-
-### Modulos
-![](https://github.com/miw-upm/betca-tpv-angular/blob/develop/docs/app-module.png)
-
-### Plantilla de la arquitectura de un componente
-![](https://github.com/miw-upm/betca-tpv-angular/blob/develop/docs/app-template.png)
-
-:heavy_check_mark:
-```typescript
-export interface ArticleQuickCreation {
-  code: string;
-  description: string;
-  retailPrice: number;
-}
-```
-:x:
-```typescript
-export interface Article {
-  code: string;
-  reference?: string;
-  description?: string;
-  retailPrice?: number;
-  stock?: number;
-  provider?: string;
-  discontinued?: boolean;
-  registrationDate?: Date;
-}
 ```
 
 #### Responsabilidades
@@ -297,15 +258,6 @@ export class CashierClosureService {
 }
 
 ```
-### Servicios (CORE)
-![](https://github.com/miw-upm/betca-tpv-angular/blob/develop/docs/core-module.png)
-
-### Jerarquía de componentes y servicios
-![](https://github.com/miw-upm/betca-tpv-angular/blob/develop/docs/app-hierarchy.png)
-![](https://github.com/miw-upm/betca-tpv-angular/blob/develop/docs/app-hierarchy-code.png)
-
-### Vista de pantallas
-![](https://github.com/miw-upm/betca-tpv-angular/blob/develop/docs/app-view.png)
 
 ## Autenticación
 Se plantean mediante **Basic Auth** para logearse y obtener un **API Key** o **token** de tipo **JSON Web Tokens (JWT)** y **Bearer auth** para el acceso a los recursos.  
@@ -356,40 +308,8 @@ export class HttpService {
 ```
 ## Organización del código
 
-### `package.json`
-```json
-{
-  "name": "betca-tpv-angular",
-  "version": "1.3.0-SNAPSHOT",
-  "scripts": {
-    "ng": "ng",
-    "postinstall": "ng build --prod",
-    "start": "node server.js",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
-  },
-  "private": true,
-  "dependencies": {
-    "@angular/animations": "~7.2.0",
-    "@angular/flex-layout": "^7.0.0-beta.23",
-    ...
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "~0.12.0",
-    "@angular/cli": "~7.2.1",
-    "@angular/compiler-cli": "~7.2.0",
-    "@angular/language-service": "~7.2.0",
-    ...
-  },
-  "engines": {
-    "node": "~8.15.0",
-    "npm": "~6.7.0"
-  }
-}
-```
-    ~: versión mas cercana posible, ^: versión compatible mas alta
+Nota dependencias: ~: versión mas cercana posible, ^: versión compatible mas alta
+
 ### Entorno-Perfil
 `environment.ts`
 ```typescript
