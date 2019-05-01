@@ -7,7 +7,6 @@ import {DbSeedDialogComponent} from './home/admins/db-seed-dialog.component';
 import {WelcomeComponent} from './welcome.component';
 import {ReservationsComponent} from './home/reservations/reservations.component';
 import {CheckReservationCodeDialogComponent} from './home/check-reservation-code/crc.component';
-import {ConfirmReservationComponent} from './home/confirm-reservation/confirm-reservation.component';
 import {ReservationConfirmationDialogComponent} from './home/reservation-confirmation-dialog/reservation-confirmation-dialog.component';
 
 
@@ -17,8 +16,7 @@ const routes: Routes = [
   {
     path: HomeComponent.URL, component: HomeComponent,
     children: [
-      {path: UsersComponent.URL, component: UsersComponent},
-      {path: ConfirmReservationComponent.URL, component: ConfirmReservationComponent}
+      {path: UsersComponent.URL, component: UsersComponent}
     ]
   }
 ];
@@ -32,7 +30,6 @@ export class AppRoutingModule {
     HomeComponent,
     UsersComponent,
     WelcomeComponent,
-    ConfirmReservationComponent,
     ReservationsComponent
   ];
 

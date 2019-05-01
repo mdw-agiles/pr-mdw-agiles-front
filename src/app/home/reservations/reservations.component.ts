@@ -89,7 +89,7 @@ export class ReservationsComponent {
   }
 
   // Call to dummy postReservation service
-  reserve(room: string) {
+  reserve() {
     const codeObservable = this.reservationService.postReservation();
     codeObservable.subscribe((reservationCodePost: string) => {
       this.reservationCode = reservationCodePost;
