@@ -27,6 +27,10 @@ export class ReservationsComponent {
   roomNameSelected: string;
 
   constructor(private reservationService: ReservationService) {
+    this.initComponent();
+  }
+
+  initComponent() {
     this.matSelectHotelChain = [];
     this.isHotelChainSelected = false;
     this.obtainAllHotelChains();
@@ -84,6 +88,10 @@ export class ReservationsComponent {
       this.hasHotelsFound = true;
       this.hasRoomsFound = false;
     });
+  }
+
+  resetFilter() {
+    this.initComponent();
   }
 }
 
