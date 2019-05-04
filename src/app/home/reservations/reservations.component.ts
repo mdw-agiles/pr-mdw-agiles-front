@@ -29,6 +29,10 @@ export class ReservationsComponent {
   reservationCode: string;
 
   constructor(private reservationService: ReservationService, private dialog: MatDialog) {
+    this.initComponent();
+  }
+
+  initComponent() {
     this.matSelectHotelChain = [];
     this.isHotelChainSelected = false;
     this.obtainAllHotelChains();
@@ -98,6 +102,10 @@ export class ReservationsComponent {
         data: { code: this.reservationCode },
       });
     });
+  }
+
+  resetFilter() {
+    this.initComponent();
   }
 }
 

@@ -20,6 +20,10 @@
             [disabled]="!isHotelChainSelected">
       <mat-icon>search</mat-icon>
     </button>
+    <button type="submit" mat-mini-fab color="warn" (click)="resetFilter();"
+            [disabled]="!isHotelChainSelected">
+      <mat-icon>autorenew</mat-icon>
+    </button>
   </div>
 </mat-card>
 <div *ngIf="hasHotelsFound">
