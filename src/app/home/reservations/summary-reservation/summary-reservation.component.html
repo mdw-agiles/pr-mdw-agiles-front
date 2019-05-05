@@ -1,0 +1,31 @@
+<div *ngIf="reservation">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><h2>Reserva</h2></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <dl>
+        <dt>Hotel:</dt>
+        <dd>{{reservation.hotel.name}}</dd>
+        <dt>Habitación:</dt>
+        <dd>{{reservation.room.name}}</dd>
+        <dt>Fecha de reserva:</dt>
+        <dd>{{reservation.dateTime | date:'yyyy-MM-dd HH:mm'}}</dd>
+        <dt>Duración de la reserva:</dt>
+        <dd>{{reservation.duration}} horas</dd>
+        <dt>Precio:</dt>
+        <dt>{{reservation.cost}} €</dt>
+      </dl>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="cancel()">
+        <mat-icon>cancel</mat-icon>
+        Cancelar
+      </button>
+      <button mat-button color="primary" (click)="reserve()">
+        <mat-icon>send</mat-icon>
+        Confirmar reserva
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -6,6 +6,7 @@ import {Hotel} from './models/hotel.model';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
 import {ReservationConfirmationDialogComponent} from '../reservation-confirmation-dialog/reservation-confirmation-dialog.component';
+import {Reservation} from './models/reservation.model';
 
 @Component({
   selector: 'app-reservations',
@@ -26,9 +27,9 @@ export class ReservationsComponent {
   hasRoomsFound: boolean;
   rooms: Room[];
   roomNameSelected: string;
-  reservationCode: string;
+  selectedReservation: Reservation;
 
-  constructor(private reservationService: ReservationService, private dialog: MatDialog) {
+  constructor(private reservationService: ReservationService) {
     this.initComponent();
   }
 
@@ -36,12 +37,13 @@ export class ReservationsComponent {
     this.matSelectHotelChain = [];
     this.isHotelChainSelected = false;
     this.obtainAllHotelChains();
-    this.hotelChain = {name: ''};
+    this.hotelChain = {id: '', name: ''};
     this.hotels = [];
     this.hasHotelsFound = false;
     this.hasRoomsFound = false;
     this.rooms = [];
     this.roomNameSelected = '';
+    this.selectedReservation = null;
   }
 
   obtainAllHotelChains() {
@@ -92,21 +94,70 @@ export class ReservationsComponent {
     });
   }
 
-  // Call to dummy postReservation service
-  reserve() {
-    const codeObservable = this.reservationService.postReservation();
-    codeObservable.subscribe((reservationCodePost: string) => {
-      this.reservationCode = reservationCodePost;
-      console.log(this.reservationCode);
-      this.dialog.open(ReservationConfirmationDialogComponent, {
-        data: { code: this.reservationCode },
-      });
-    });
-  }
-
   resetFilter() {
     this.initComponent();
+    this.selectedReservation = null;
   }
+
+  showSummaryReservation() {
+    /*
+      TODO: Servicio REST /reservation/reservation espera este DTOs
+         {
+          "id": "string",
+          "code": "string",
+          "cost": 0,
+          "dateTime": "2019-05-04T19:44:42.346Z",
+          "duration": 0,
+          "hotel": {
+            "id": "string",
+            "name": "string",
+            "hotelChain": {
+              "id": "string",
+              "name": "string"
+            }
+          },
+          "room": {
+            "id": "string",
+            "name": "string",
+            "price": 0,
+            "hotel": {
+              "id": "string",
+              "name": "string",
+              "hotelChain": {
+                "id": "string",
+                "name": "string"
+              }
+            }
+          }
+        }
+     */
+
+
+    const hotelChain: HotelChain = {
+      id: '5cbc210bc2e17403fb397c27',
+      name: 'NH Hoteles'
+    };
+    const hotel: Hotel = {
+      id: '5cbc2a3fc2e17403fb397c5b',
+      name: 'NH Madrid Centro',
+      hotelChain: hotelChain
+    };
+    const room: Room = {
+      id: '5cbc2adec2e17403fb397c6b',
+      name: 'Normal 2 personas',
+      price: 10,
+      hotel: hotel
+    };
+
+    this.selectedReservation = {
+      cost: room.price * 2,
+      dateTime: new Date(),
+      duration: 2,
+      hotel: hotel,
+      room: room
+    };
+  }
+
 }
 
 
