@@ -11,6 +11,7 @@ import {AppMaterialModule} from './app-material.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ReservationService} from './home/shared/reservation.service';
+import {SummaryReservationComponent} from './home/reservations/summary-reservation/summary-reservation.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import {ReservationService} from './home/shared/reservation.service';
   declarations: [
     AppComponent,
     AppRoutingModule.COMPONENTS,
-    AppRoutingModule.DIALOGS
+    AppRoutingModule.DIALOGS,
+    SummaryReservationComponent
   ],
   entryComponents: [AppRoutingModule.DIALOGS],
   providers: [
