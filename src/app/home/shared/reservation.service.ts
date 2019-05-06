@@ -9,10 +9,25 @@ import {Room} from '../reservations/models/room.model';
 @Injectable()
 export class ReservationService {
 
-  constructor(private httpService: HttpService) {}
+  cadena = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+  constructor(private httpService: HttpService) {
+  }
 
   getReservationByCode(reservationCode: string): Observable<any> {
     return this.httpService.param('code', reservationCode).get(ApiEndpoint.RESERVATION_SEARCH);
+  }
+
+  public postReservation(): any {
+    const codeObservable = new Observable(observer => {
+      let result = '';
+      for (let i = 40; i > 0; --i) {
+        result += this.cadena[Math.floor(Math.random() * this.cadena.length)];
+      }
+      observer.next(result);
+    });
+
+    return codeObservable;
   }
 
   getAllHotelChains(): Observable<HotelChain[]> {

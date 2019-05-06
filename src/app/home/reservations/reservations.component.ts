@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
+import {ReservationConfirmationDialogComponent} from '../reservation-confirmation-dialog/reservation-confirmation-dialog.component';
+import {Reservation} from './models/reservation.model';
 
 @Component({
   selector: 'app-reservations',
@@ -21,10 +23,11 @@ export class ReservationsComponent {
   dataSourceHotel: MatTableDataSource<Hotel>;
   displayedHotelColumns = ['id', 'name', 'rooms'];
   dataSourceRoom: MatTableDataSource<Room>;
-  displayedRoomColumns = ['id', 'name', 'price'];
+  displayedRoomColumns = ['id', 'name', 'price', 'reserve'];
   hasRoomsFound: boolean;
   rooms: Room[];
   roomNameSelected: string;
+  selectedReservation: Reservation;
 
   constructor(private reservationService: ReservationService) {
     this.initComponent();
@@ -34,26 +37,27 @@ export class ReservationsComponent {
     this.matSelectHotelChain = [];
     this.isHotelChainSelected = false;
     this.obtainAllHotelChains();
-    this.hotelChain = { name: ''};
+    this.hotelChain = {id: '', name: ''};
     this.hotels = [];
     this.hasHotelsFound = false;
     this.hasRoomsFound = false;
     this.rooms = [];
     this.roomNameSelected = '';
+    this.selectedReservation = null;
   }
 
   obtainAllHotelChains() {
-    this.reservationService.getAllHotelChains().subscribe( hotelChains => {
-      this.fillMatSelectHotelChain(hotelChains);
-    },
+    this.reservationService.getAllHotelChains().subscribe(hotelChains => {
+        this.fillMatSelectHotelChain(hotelChains);
+      },
       () => {
-      this.isHotelChainSelected = false;
+        this.isHotelChainSelected = false;
       });
   }
 
   fillMatSelectHotelChain(hotelChains: HotelChain[]) {
     hotelChains.forEach(hotelChain => {
-      this.matSelectHotelChain.push( {value: hotelChain.name, viewValue: hotelChain.name});
+      this.matSelectHotelChain.push({value: hotelChain.name, viewValue: hotelChain.name});
     });
   }
 
@@ -70,7 +74,7 @@ export class ReservationsComponent {
       this.dataSourceHotel = new MatTableDataSource<Hotel>(this.hotels);
       this.hasHotelsFound = true;
       this.hasRoomsFound = false;
-    }, () => this.hasHotelsFound = false );
+    }, () => this.hasHotelsFound = false);
   }
 
   showRooms(room: string) {
@@ -92,7 +96,68 @@ export class ReservationsComponent {
 
   resetFilter() {
     this.initComponent();
+    this.selectedReservation = null;
   }
+
+  showSummaryReservation() {
+    /*
+      TODO: Servicio REST /reservation/reservation espera este DTOs
+         {
+          "id": "string",
+          "code": "string",
+          "cost": 0,
+          "dateTime": "2019-05-04T19:44:42.346Z",
+          "duration": 0,
+          "hotel": {
+            "id": "string",
+            "name": "string",
+            "hotelChain": {
+              "id": "string",
+              "name": "string"
+            }
+          },
+          "room": {
+            "id": "string",
+            "name": "string",
+            "price": 0,
+            "hotel": {
+              "id": "string",
+              "name": "string",
+              "hotelChain": {
+                "id": "string",
+                "name": "string"
+              }
+            }
+          }
+        }
+     */
+
+
+    const hotelChain: HotelChain = {
+      id: '5cbc210bc2e17403fb397c27',
+      name: 'NH Hoteles'
+    };
+    const hotel: Hotel = {
+      id: '5cbc2a3fc2e17403fb397c5b',
+      name: 'NH Madrid Centro',
+      hotelChain: hotelChain
+    };
+    const room: Room = {
+      id: '5cbc2adec2e17403fb397c6b',
+      name: 'Normal 2 personas',
+      price: 10,
+      hotel: hotel
+    };
+
+    this.selectedReservation = {
+      cost: room.price * 2,
+      dateTime: new Date(),
+      duration: 2,
+      hotel: hotel,
+      room: room
+    };
+  }
+
 }
 
 

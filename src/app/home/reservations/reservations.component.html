@@ -28,7 +28,7 @@
 </mat-card>
 <div *ngIf="hasHotelsFound">
   <mat-card>
-    <div class="left">{{hotelChain.name}} </div>
+    <div class="left">{{hotelChain.name}}</div>
   </mat-card>
   <mat-card>
     <mat-card-content>
@@ -59,7 +59,7 @@
 
 <div *ngIf="hasRoomsFound">
   <mat-card>
-    <div class="left">{{roomNameSelected}} </div>
+    <div class="left">{{roomNameSelected}}</div>
   </mat-card>
   <mat-card>
     <mat-card-content>
@@ -76,9 +76,20 @@
           <mat-header-cell *matHeaderCellDef fxFlex="28%"> Precio</mat-header-cell>
           <mat-cell *matCellDef="let item" fxFlex="28%"> {{item.price}}</mat-cell>
         </ng-container>
+        <ng-container matColumnDef="reserve">
+          <mat-header-cell *matHeaderCellDef fxFlex="28%"> Reservar</mat-header-cell>
+          <mat-cell *matCellDef="let item" fxFlex="28%">
+            <button (click)="showSummaryReservation()"
+                    mat-button mat-icon-button matSuffix>
+              <mat-icon color="primary">schedule</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
         <mat-header-row *matHeaderRowDef="displayedRoomColumns"></mat-header-row>
         <mat-row *matRowDef="let item; columns: displayedRoomColumns;"></mat-row>
       </mat-table>
     </mat-card-content>
   </mat-card>
 </div>
+
+<app-summary-reservation [reservation]="selectedReservation"></app-summary-reservation>
