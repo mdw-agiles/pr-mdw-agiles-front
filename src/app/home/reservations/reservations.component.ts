@@ -3,9 +3,8 @@ import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
-import {ReservationConfirmationDialogComponent} from '../reservation-confirmation-dialog/reservation-confirmation-dialog.component';
 import {Reservation} from './models/reservation.model';
 
 @Component({
