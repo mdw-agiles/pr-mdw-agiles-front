@@ -15,6 +15,7 @@ export class SummaryReservationComponent implements OnInit {
 
   @Input() reservation: Reservation;
   reservationCode: string;
+  hideElement = false;
 
   constructor(private reservationService: ReservationService, private dialog: MatDialog) {
   }
