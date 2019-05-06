@@ -8,6 +8,7 @@ import {WelcomeComponent} from './welcome.component';
 import {ReservationsComponent} from './home/reservations/reservations.component';
 import {CheckReservationCodeDialogComponent} from './home/check-reservation-code/crc.component';
 import {ReservationConfirmationDialogComponent} from './home/reservation-confirmation-dialog/reservation-confirmation-dialog.component';
+import {SummaryReservationDialogComponent} from './home/reservations/summary-reservation/summary-reservation-dialog.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ export class AppRoutingModule {
   static DIALOGS = [
     DbSeedDialogComponent,
     CheckReservationCodeDialogComponent,
-    ReservationConfirmationDialogComponent
+    ReservationConfirmationDialogComponent,
+    SummaryReservationDialogComponent
   ];
 }
