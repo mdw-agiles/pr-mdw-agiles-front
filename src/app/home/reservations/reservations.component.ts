@@ -34,14 +34,14 @@ export class ReservationsComponent {
   bookedDateTimes = [];
   hoursTheDay = [];
   hoursBooked = [];
+  hoursFree = [];
 
   constructor(private reservationService: ReservationService) {
     this.hoursTheDay = Array.from(
       Array(24 - new Date(
-        '01/01/2000 00:00:00').getHours()),
-      (x, i) => ('0' + (23 - i))
-      .slice(-2) + ':00:00')
-      .reverse();
+        '2019-04-20T22:00:00.000+0000').getHours()),
+      (x, i) => ((23 - i)));
+    console.log('HoursTHEDAY', this.hoursTheDay);
     this.initComponent();
   }
 
@@ -77,6 +77,7 @@ export class ReservationsComponent {
     this.dateSelected = '';
     this.bookedDateTimes = [];
     this.hoursBooked = [];
+    this.hoursFree = [];
   }
 
   obtainAllHotelChains() {
@@ -157,9 +158,16 @@ export class ReservationsComponent {
       this.bookedDateTimes = dates;
       if (dates.length !== 0) {
         dates.forEach(date => {
-          this.hoursBooked.push(date.getHours());
+          const hour = new Date(date).getHours();
+          this.hoursBooked.push((hour === 0 || hour === 1 ) ? hour : hour - 2 );
         });
+        console.log(dates);
         console.log(this.hoursBooked);
+        const hoursTheDayAndBooked = [...this.hoursTheDay, ...this.hoursBooked];
+        // @ts-ignore
+        this.hoursFree = new Set(hoursTheDayAndBooked);
+
+        console.log('Hours Free', this.hoursFree);
       }
     }, () => this.hasFreeHours = false);
   }
