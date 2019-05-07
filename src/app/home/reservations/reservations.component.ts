@@ -3,7 +3,7 @@ import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
-import {MatSnackBar, MatTableDataSource} from '@angular/material';
+import {MatOptionSelectionChange, MatSnackBar, MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
 import {Reservation} from './models/reservation.model';
 
@@ -196,13 +196,13 @@ export class ReservationsComponent {
     this.selectedReservation = null;
   }
 
-  hourChange(value: string) {
-    this.hourValue = value;
+  hourChange(value: MatOptionSelectionChange) {
+    this.hourValue = value.source.value;
     this.hourSelected = true;
   }
 
-  durationChange(value: string) {
-    this.durationValue = +value;
+  durationChange(value: MatOptionSelectionChange) {
+    this.durationValue = +value.source.value;
     this.durationSelected = true;
   }
 
