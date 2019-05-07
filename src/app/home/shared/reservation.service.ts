@@ -5,11 +5,10 @@ import {Observable} from 'rxjs';
 import {HotelChain} from '../reservations/models/hotel-chain.model';
 import {Hotel} from '../reservations/models/hotel.model';
 import {Room} from '../reservations/models/room.model';
+import {Reservation} from '../reservations/models/reservation.model';
 
 @Injectable()
 export class ReservationService {
-
-  cadena = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   constructor(private httpService: HttpService) {
   }
@@ -18,16 +17,10 @@ export class ReservationService {
     return this.httpService.param('code', reservationCode).get(ApiEndpoint.RESERVATION_SEARCH);
   }
 
-  public postReservation(): any {
-    const codeObservable = new Observable(observer => {
-      let result = '';
-      for (let i = 40; i > 0; --i) {
-        result += this.cadena[Math.floor(Math.random() * this.cadena.length)];
-      }
-      observer.next(result);
-    });
-
-    return codeObservable;
+  postReservation(reservation: Reservation): Observable<any> {
+    return this.httpService
+      .successful('Reserva creada correctamente')
+      .post(ApiEndpoint.RESERVATION_RESERVATION, reservation, 'text');
   }
 
   getAllHotelChains(): Observable<HotelChain[]> {

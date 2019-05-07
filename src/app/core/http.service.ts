@@ -68,7 +68,10 @@ export class HttpService {
     return this;
   }
 
-  post(endpoint: string, body?: Object): Observable<any> {
+  post(endpoint: string, body?: Object, responseType?: string): Observable<any> {
+    if (responseType != null) {
+      this.responseType = responseType;
+    }
     return this.http.post(HttpService.API_END_POINT + endpoint, body, this.createOptions()).pipe(
       map(response => this.extractData(response)
       ), catchError(error => {

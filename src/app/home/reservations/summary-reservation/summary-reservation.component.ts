@@ -15,6 +15,7 @@ export class SummaryReservationComponent implements OnInit {
 
   @Input() reservation: Reservation;
   reservationCode: string;
+  hideElement = false;
 
   constructor(private reservationService: ReservationService, private dialog: MatDialog) {
   }
@@ -30,10 +31,11 @@ export class SummaryReservationComponent implements OnInit {
 
   // Call to dummy postReservation service
   reserve() {
-    const codeObservable = this.reservationService.postReservation();
-    codeObservable.subscribe((reservationCodePost: string) => {
+    const codeObservable = this.reservationService.postReservation(this.reservation);
+    codeObservable.subscribe((reservationCodePost: any) => {
+      console.log(reservationCodePost);
+      this.reservation = null;
       this.reservationCode = reservationCodePost;
-      console.log(this.reservationCode);
       this.dialog.open(ReservationConfirmationDialogComponent, {
         data: {code: this.reservationCode},
       });
