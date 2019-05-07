@@ -32,8 +32,15 @@ export class ReservationsComponent {
   dateSelected: string;
   selectedReservation: Reservation;
   bookedDateTimes = [];
+  hoursTheDay = [];
 
   constructor(private reservationService: ReservationService) {
+    this.hoursTheDay = Array.from(
+      Array(24 - new Date(
+        '01/01/2000 00:00:00').getHours()),
+      (x, i) => ('0' + (23 - i))
+      .slice(-2) + ':00:00')
+      .reverse();
     this.initComponent();
   }
 
@@ -120,8 +127,6 @@ export class ReservationsComponent {
 
   showDatePicker(room: Room) {
     this.roomSelected = room;
-    // TODO: Unmock it
-    this.roomSelected.id = '5cbc2adec2e17403fb397c6b';
     this.hasRoomsFound = false;
     this.isDatePickerShown = true;
   }
@@ -147,8 +152,13 @@ export class ReservationsComponent {
   obtainBookedDateTimes() {
     this.reservationService.getBookedDateTimesByRoomAndDate(this.roomSelected.id, this.dateSelected).subscribe( dates => {
       this.hasFreeHours = true;
-      // TODO: Continue here!
       this.bookedDateTimes = dates;
+      if (dates.length !== 0) {
+        const hoursBooked = dates.forEach(date => {
+          return date.getHours();
+        });
+      }
+      console.log(hoursBooked);
     }, () => this.hasFreeHours = false);
   }
 
