@@ -3,7 +3,7 @@ import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
-import {MatTableDataSource} from '@angular/material';
+import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
 import {Reservation} from './models/reservation.model';
 
@@ -32,16 +32,13 @@ export class ReservationsComponent {
   dateSelected: string;
   selectedReservation: Reservation;
   bookedDateTimes = [];
-  hoursTheDay = [];
   hoursBooked = [];
   hoursFree = [];
 
-  constructor(private reservationService: ReservationService) {
-    this.hoursTheDay = Array.from(
-      Array(24 - new Date(
-        '2019-04-20T22:00:00.000+0000').getHours()),
-      (x, i) => ((23 - i)));
-    console.log('HoursTHEDAY', this.hoursTheDay);
+  constructor(
+    private reservationService: ReservationService,
+    private snackBar: MatSnackBar
+  ) {
     this.initComponent();
   }
 
@@ -153,23 +150,38 @@ export class ReservationsComponent {
   }
 
   obtainBookedDateTimes() {
-    this.reservationService.getBookedDateTimesByRoomAndDate(this.roomSelected.id, this.dateSelected).subscribe( dates => {
-      this.hasFreeHours = true;
-      this.bookedDateTimes = dates;
-      if (dates.length !== 0) {
-        dates.forEach(date => {
-          const hour = new Date(date).getHours();
-          this.hoursBooked.push((hour === 0 || hour === 1 ) ? hour : hour - 2 );
-        });
-        console.log(dates);
-        console.log(this.hoursBooked);
-        const hoursTheDayAndBooked = [...this.hoursTheDay, ...this.hoursBooked];
-        // @ts-ignore
-        this.hoursFree = new Set(hoursTheDayAndBooked);
-
-        console.log('Hours Free', this.hoursFree);
-      }
-    }, () => this.hasFreeHours = false);
+    this.reservationService.getBookedDateTimesByRoomAndDate(this.roomSelected.id, this.dateSelected)
+      .subscribe(
+        dates => {
+          this.hasFreeHours = true;
+          this.bookedDateTimes = dates;
+          const hours = Array.from(Array(24 - new Date('01/01/2000 00:00').getHours()), (x, i) => ('0' + (23 - i))
+            .slice(-2) + ':00')
+            .reverse();
+          this.hoursFree = hours.filter((hourArray, index) => {
+            function isReserved(hour: string) {
+              let inside;
+              dates.forEach(function(e, i) {
+                let x, q;
+                q = new Date(e);
+                q = new Date(q.setHours(q.getHours() - 2));
+                x = q.getHours() < 10 ? '0' + q.getHours() + ':00' : q.getHours() + ':00';
+                if (!inside) {
+                  inside = x === hour;
+                }
+              });
+              return !inside;
+            }
+            return isReserved(hourArray);
+          });
+        },
+        err => {
+          this.snackBar.open('Error al obtener las horas libres', 'Error', {
+            duration: 2000
+          });
+          this.hasFreeHours = false;
+        }
+      );
   }
 
   resetFilter() {
