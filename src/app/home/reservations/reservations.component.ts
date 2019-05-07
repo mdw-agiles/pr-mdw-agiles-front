@@ -29,11 +29,13 @@ export class ReservationsComponent {
   roomSelected: Room;
   isDatePickerShown: boolean;
   hasFreeHours: boolean;
+  hourSelected = false;
   dateSelected: string;
   selectedReservation: Reservation;
   bookedDateTimes = [];
   hoursBooked = [];
   hoursFree = [];
+  durationSelect = [2, 4, 6, 8];
 
   constructor(
     private reservationService: ReservationService,
@@ -248,6 +250,9 @@ export class ReservationsComponent {
     };
   }
 
+  hourChange() {
+    this.hourSelected = true;
+  }
 }
 
 

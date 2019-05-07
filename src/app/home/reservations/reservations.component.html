@@ -101,7 +101,24 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <div *ngIf="hasFreeHours">
-      {{bookedDateTimes}}
+      <mat-form-field>
+        <mat-label>Selecciona hora libre</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let hour of hoursFree" [value]="hour" (onSelectionChange)="hourChange()">
+            {{hour}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="hasFreeHours && hourSelected">
+      <mat-form-field>
+        <mat-label>Selecciona duracion</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let duration of durationSelect" [value]="duration">
+            {{duration}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </mat-card>
 </div>
