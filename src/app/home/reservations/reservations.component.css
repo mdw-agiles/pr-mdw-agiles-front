@@ -19,3 +19,7 @@
   overflow: auto;
   max-height: 600px;
 }
+
+.datepicker {
+  margin-top: 2em;
+}

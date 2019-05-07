@@ -3,9 +3,8 @@ import {HotelChain} from './models/hotel-chain.model';
 import {GenericMatSelect} from '../shared/models/generic-mat-select.model';
 import {ReservationService} from '../shared/reservation.service';
 import {Hotel} from './models/hotel.model';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatTableDataSource} from '@angular/material';
 import {Room} from './models/room.model';
-import {ReservationConfirmationDialogComponent} from '../reservation-confirmation-dialog/reservation-confirmation-dialog.component';
 import {Reservation} from './models/reservation.model';
 
 @Component({
@@ -19,6 +18,7 @@ export class ReservationsComponent {
   isHotelChainSelected: boolean;
   matSelectHotelChain: GenericMatSelect[];
   hotels: Hotel[];
+  hotelSelected: Hotel;
   hasHotelsFound: boolean;
   dataSourceHotel: MatTableDataSource<Hotel>;
   displayedHotelColumns = ['id', 'name', 'rooms'];
@@ -26,8 +26,12 @@ export class ReservationsComponent {
   displayedRoomColumns = ['id', 'name', 'price', 'reserve'];
   hasRoomsFound: boolean;
   rooms: Room[];
-  roomNameSelected: string;
+  roomSelected: Room;
+  isDatePickerShown: boolean;
+  hasFreeHours: boolean;
+  dateSelected: string;
   selectedReservation: Reservation;
+  bookedDateTimes = [];
 
   constructor(private reservationService: ReservationService) {
     this.initComponent();
@@ -39,11 +43,31 @@ export class ReservationsComponent {
     this.obtainAllHotelChains();
     this.hotelChain = {id: '', name: ''};
     this.hotels = [];
+    this.hotelSelected = {
+      id: '',
+      name: '',
+      hotelChain: this.hotelChain,
+    };
+    this.roomSelected = {
+      id: '',
+      name: '',
+      price: 0,
+      hotel: this.hotelSelected,
+    };
     this.hasHotelsFound = false;
     this.hasRoomsFound = false;
     this.rooms = [];
-    this.roomNameSelected = '';
-    this.selectedReservation = null;
+    this.isDatePickerShown = false;
+    this.hasFreeHours = false;
+    this.selectedReservation = {
+      cost: 0,
+      dateTime: null,
+      duration: 0,
+      hotel: this.hotelSelected,
+      room: this.roomSelected,
+    };
+    this.dateSelected = '';
+    this.bookedDateTimes = [];
   }
 
   obtainAllHotelChains() {
@@ -77,14 +101,14 @@ export class ReservationsComponent {
     }, () => this.hasHotelsFound = false);
   }
 
-  showRooms(room: string) {
+  showRooms(hotel: Hotel) {
     this.hasHotelsFound = false;
-    this.roomNameSelected = room;
+    this.hotelSelected = hotel;
     this.searchRoomsByHotel();
   }
 
   searchRoomsByHotel() {
-    this.reservationService.getAllRoomByHotel(this.roomNameSelected).subscribe(rooms => {
+    this.reservationService.getAllRoomByHotel(this.hotelSelected.name).subscribe(rooms => {
       this.rooms = rooms;
       this.dataSourceRoom = new MatTableDataSource<Room>(this.rooms);
       this.hasRoomsFound = true;
@@ -92,6 +116,40 @@ export class ReservationsComponent {
       this.hasHotelsFound = true;
       this.hasRoomsFound = false;
     });
+  }
+
+  showDatePicker(room: Room) {
+    this.roomSelected = room;
+    // TODO: Unmock it
+    this.roomSelected.id = '5cbc2adec2e17403fb397c6b';
+    this.hasRoomsFound = false;
+    this.isDatePickerShown = true;
+  }
+
+  showFreeHours(date: string) {
+    this.hasFreeHours = true;
+    this.manageDateSelected(date);
+    this.obtainBookedDateTimes();
+  }
+
+  manageDateSelected(date: string) {
+    const dateSelected =  date.split('/');
+    const month = (dateSelected[0].length === 1)
+      ? `0${dateSelected[0]}`
+      : dateSelected[0];
+    const day = (dateSelected[1].length === 1)
+      ? `0${dateSelected[1]}`
+      : dateSelected[1];
+    const year = dateSelected[2];
+    this.dateSelected = `${year}-${month}-${day}`;
+  }
+
+  obtainBookedDateTimes() {
+    this.reservationService.getBookedDateTimesByRoomAndDate(this.roomSelected.id, this.dateSelected).subscribe( dates => {
+      this.hasFreeHours = true;
+      // TODO: Continue here!
+      this.bookedDateTimes = dates;
+    }, () => this.hasFreeHours = false);
   }
 
   resetFilter() {
