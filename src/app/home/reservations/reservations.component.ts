@@ -30,7 +30,6 @@ export class ReservationsComponent {
   isDatePickerShown: boolean;
   hasFreeHours: boolean;
   hourSelected = false;
-  dateSelected: string;
   selectedReservation: Reservation;
   bookedDateTimes = [];
   hoursBooked = [];
@@ -38,6 +37,10 @@ export class ReservationsComponent {
   durationSelect = [2, 4, 6, 8];
   durationSelected = false;
   hasReservationsFound = false;
+  private dateValueString: string;
+  private dateValue: Date;
+  private hourValue: string;
+  private durationValue: number;
 
   constructor(
     private reservationService: ReservationService,
@@ -75,7 +78,6 @@ export class ReservationsComponent {
       hotel: this.hotelSelected,
       room: this.roomSelected,
     };
-    this.dateSelected = '';
     this.bookedDateTimes = [];
     this.hoursBooked = [];
     this.hoursFree = [];
@@ -150,11 +152,12 @@ export class ReservationsComponent {
       ? `0${dateSelected[1]}`
       : dateSelected[1];
     const year = dateSelected[2];
-    this.dateSelected = `${year}-${month}-${day}`;
+    this.dateValueString = `${year}-${month}-${day}`;
+    this.dateValue = new Date(`${year}-${month}-${day}`);
   }
 
   obtainBookedDateTimes() {
-    this.reservationService.getBookedDateTimesByRoomAndDate(this.roomSelected.id, this.dateSelected)
+    this.reservationService.getBookedDateTimesByRoomAndDate(this.roomSelected.id, this.dateValueString)
       .subscribe(
         dates => {
           this.hasFreeHours = true;
@@ -252,15 +255,24 @@ export class ReservationsComponent {
     };
   }
 
-  hourChange() {
+  hourChange(value: string) {
+    this.hourValue = value;
     this.hourSelected = true;
   }
 
-  durationChange() {
+  durationChange(value: string) {
+    this.durationValue = +value;
     this.durationSelected = true;
   }
 
   preview() {
+    this.selectedReservation = {
+      cost: this.roomSelected.price * this.durationValue,
+      dateTime: this.dateValue,
+      duration: this.durationValue,
+      hotel: this.hotelSelected,
+      room: this.roomSelected,
+    };
     this.hasReservationsFound = true;
   }
 }

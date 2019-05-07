@@ -104,7 +104,7 @@
       <mat-form-field>
         <mat-label>Selecciona hora libre</mat-label>
         <mat-select>
-          <mat-option *ngFor="let hour of hoursFree" [value]="hour" (onSelectionChange)="hourChange()">
+          <mat-option *ngFor="let hour of hoursFree" [value]="hour" (onSelectionChange)="hourChange($event)">
             {{hour}}
           </mat-option>
         </mat-select>
@@ -114,7 +114,7 @@
       <mat-form-field>
         <mat-label>Selecciona duracion</mat-label>
         <mat-select>
-          <mat-option *ngFor="let duration of durationSelect" [value]="duration" (onSelectionChange)="durationChange()">
+          <mat-option *ngFor="let duration of durationSelect" [value]="duration" (onSelectionChange)="durationChange($event)">
             {{duration}}
           </mat-option>
         </mat-select>
