@@ -114,11 +114,16 @@
       <mat-form-field>
         <mat-label>Selecciona duracion</mat-label>
         <mat-select>
-          <mat-option *ngFor="let duration of durationSelect" [value]="duration">
+          <mat-option *ngFor="let duration of durationSelect" [value]="duration" (onSelectionChange)="durationChange()">
             {{duration}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+    <div *ngIf="hasFreeHours && hourSelected && durationSelected">
+      <button mat-button color="primary" (click)="preview()">
+        <mat-icon>remove_red_eye</mat-icon> Preview
+      </button>
     </div>
   </mat-card>
 </div>

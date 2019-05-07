@@ -36,6 +36,8 @@ export class ReservationsComponent {
   hoursBooked = [];
   hoursFree = [];
   durationSelect = [2, 4, 6, 8];
+  durationSelected = false;
+  hasReservationsFound = false;
 
   constructor(
     private reservationService: ReservationService,
@@ -252,6 +254,14 @@ export class ReservationsComponent {
 
   hourChange() {
     this.hourSelected = true;
+  }
+
+  durationChange() {
+    this.durationSelected = true;
+  }
+
+  preview() {
+    this.hasReservationsFound = true;
   }
 }
 
