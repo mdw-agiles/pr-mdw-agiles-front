@@ -44,7 +44,7 @@
         <ng-container matColumnDef="rooms">
           <mat-header-cell *matHeaderCellDef fxFlex="28%"> Habitaciones</mat-header-cell>
           <mat-cell *matCellDef="let item" fxFlex="28%">
-            <button (click)="showRooms(item.name)"
+            <button (click)="showRooms(item)"
                     mat-button mat-icon-button matSuffix>
               <mat-icon color="primary">remove_red_eye</mat-icon>
             </button>
@@ -59,7 +59,7 @@
 
 <div *ngIf="hasRoomsFound">
   <mat-card>
-    <div class="left">{{roomNameSelected}}</div>
+    <div class="left">{{hotelSelected.name}}</div>
   </mat-card>
   <mat-card>
     <mat-card-content>
@@ -79,7 +79,7 @@
         <ng-container matColumnDef="reserve">
           <mat-header-cell *matHeaderCellDef fxFlex="28%"> Reservar</mat-header-cell>
           <mat-cell *matCellDef="let item" fxFlex="28%">
-            <button (click)="showSummaryReservation()"
+            <button (click)="showDatePicker(item)"
                     mat-button mat-icon-button matSuffix>
               <mat-icon color="primary">schedule</mat-icon>
             </button>
@@ -92,4 +92,42 @@
   </mat-card>
 </div>
 
-<app-summary-reservation [reservation]="selectedReservation"></app-summary-reservation>
+<div *ngIf="isDatePickerShown">
+  <mat-card>
+    <div class="left">{{hotelSelected.name}} - {{roomSelected.name}} ({{roomSelected.price}} €/hora)</div>
+    <mat-form-field class="datepicker">
+      <input matInput [matDatepicker]="picker" placeholder="Elige una fecha" (dateChange)="showFreeHours($event.targetElement.value)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div *ngIf="hasFreeHours">
+      <mat-form-field>
+        <mat-label>Selecciona hora libre</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let hour of hoursFree" [value]="hour" (onSelectionChange)="hourChange($event)">
+            {{hour}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="hasFreeHours && hourSelected">
+      <mat-form-field>
+        <mat-label>Selecciona duracion</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let duration of durationSelect" [value]="duration" (onSelectionChange)="durationChange($event)">
+            {{duration}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngIf="hasFreeHours && hourSelected && durationSelected">
+      <button mat-button color="primary" (click)="preview()">
+        <mat-icon>remove_red_eye</mat-icon> Preview
+      </button>
+    </div>
+  </mat-card>
+</div>
+
+<div *ngIf="hasReservationsFound">
+  <app-summary-reservation [reservation]="selectedReservation"></app-summary-reservation>
+</div>

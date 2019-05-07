@@ -8,4 +8,5 @@ export class ApiEndpoint {
   public static HOTEL_SEARCH = ApiEndpoint.HOTEL + '/search';
   public static ROOM = '/rooms';
   public static ROOM_SEARCH = ApiEndpoint.ROOM + '/search';
+  public static BOOKED_DATE = 'booked-date-times';
 }

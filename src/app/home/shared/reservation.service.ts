@@ -34,4 +34,8 @@ export class ReservationService {
   getAllRoomByHotel(hotelName: string): Observable<Room[]> {
     return this.httpService.param('hotelName', hotelName).get(ApiEndpoint.ROOM_SEARCH);
   }
+
+  getBookedDateTimesByRoomAndDate(roomId: string, date: string): Observable<Date[]> {
+    return this.httpService.get(`${ApiEndpoint.ROOM}/${roomId}/${ApiEndpoint.BOOKED_DATE}/${date}`);
+  }
 }
